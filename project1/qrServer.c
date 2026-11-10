@@ -180,7 +180,7 @@ int receive_file(int socket_fd, FILE* image) {
 
     //     // write(socket_fd, buffer, strlen(buffer));
     //     bzero(buffer, BUFSIZE);
-    // }gi
+    // }
     int total_bytes = 0;
     int bytes_received = 0;
     while (total_bytes < size) {//reads until the specified size
