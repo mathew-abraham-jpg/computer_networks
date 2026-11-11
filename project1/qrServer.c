@@ -170,6 +170,7 @@ int receive_file(int socket_fd, FILE* image) {
     int size;
     read(socket_fd, buffer, BUFSIZE);
     size = atoi(buffer);//reads the size from the client
+    printf("image size: %d",size);
     // // Keep receiving data chunks until the peer closes the connection
     // while (1) {
     //     n = recv(socket_fd, buffer, size, 0);
@@ -182,17 +183,17 @@ int receive_file(int socket_fd, FILE* image) {
     //     bzero(buffer, BUFSIZE);
     // }
     int total_bytes = 0;
-    int bytes_received = 0;
     while (total_bytes < size) {//reads until the specified size
+        int bytes_received = 0;
         bytes_received = recv(socket_fd, buffer, BUFSIZE, 0);
         if (bytes_received < 0) {
             perror("[-] Error reading stream");
-            break;
+            return -1;
         } else if (bytes_received == 0) {
             printf("[-] Connection closed prematurely by client\n");
-            break;
+            return -1;
         }
-
+        printf("bytes recived: %d",bytes_received);
         fwrite(buffer, 1, bytes_received, image);
         total_bytes += bytes_received;
     }
